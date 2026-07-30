@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vžigalice — premakni eno vžigalico</title>
+<style>
+  :root{
+    --bg: #1b1712;
+    --bg2: #241e17;
+    --card: #2a231b;
+    --wood: #e2823c;
+    --wood-dark: #a85a24;
+    --head: #d1352b;
+    --ink: #f3ece2;
+    --ink-dim: #b7a999;
+    --ok: #5fae82;
+    --border: #3a3025;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: radial-gradient(ellipse at top, var(--bg2), var(--bg) 70%);
+    color: var(--ink);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width: 640px; margin: 0 auto; padding: 32px 20px 60px;}
+
+  .back-link{
+    display:inline-block;
+    color: var(--ink-dim);
+    text-decoration:none;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .back-link:hover{ color: var(--wood); }
+
+  .badge{
+    display:inline-block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--ink-dim);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  h1{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-size: 2.6rem;
+    margin: 0 0 8px;
+    line-height: 1.1;
+  }
+  h1 span{color: var(--wood);}
+  .tagline{color: var(--ink-dim); font-size: 1.05rem; line-height:1.6; margin: 0 0 32px; max-width: 480px;}
+
+  .illustration{ margin: 0 0 36px; }
+  .illustration svg{ width: 100%; max-width: 420px; height: auto; display:block; }
+
+  .card{
+    background: linear-gradient(180deg, var(--card), #221c15);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.4);
+  }
+  .download-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    width: 100%;
+    font-size: 1.15rem;
+    font-weight: 700;
+    background: linear-gradient(180deg, var(--wood), var(--wood-dark));
+    color: #201205;
+    border: none;
+    padding: 18px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .12s ease;
+  }
+  .download-btn:hover{ transform: translateY(-2px); }
+  .download-btn:active{ transform: translateY(0); }
+  .filesize{ color: var(--ink-dim); font-size: 0.8rem; text-align:center; margin-top: 10px; }
+
+  .steps{ margin: 0; padding-left: 20px; color: var(--ink-dim); font-size: 0.92rem; line-height: 1.8; }
+  .steps li::marker{ color: var(--wood); font-weight: 700; }
+
+  .stats{ display:flex; gap: 14px; margin-bottom: 22px; }
+  .stat{
+    flex:1;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align:center;
+  }
+  .stat .num{ font-size: 2rem; font-weight: 700; color: var(--wood); font-variant-numeric: tabular-nums; }
+  .stat .label{ font-size: 0.78rem; color: var(--ink-dim); text-transform:uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+
+  .email-row{ display:flex; gap: 10px; flex-wrap: wrap; }
+  .email-row input[type="email"]{
+    flex: 1 1 200px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  .email-row input[type="email"]::placeholder{ color: var(--ink-dim); }
+  .email-row button{
+    flex: 0 0 auto;
+    background: var(--ok);
+    color: #10241a;
+    border: none;
+    font-weight: 700;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .email-note{ color: var(--ink-dim); font-size: 0.78rem; margin-top: 10px; }
+  .email-ok{ color: var(--ok); font-size: 0.88rem; margin-top: 10px; display:none; }
+
+  .section-title{
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--ink-dim);
+    margin: 0 0 14px;
+  }
+
+  footer{ text-align:center; color: var(--ink-dim); font-size:0.78rem; margin-top: 36px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back-link" href="../index.html">← Vse igre</a>
+
+  <span class="badge">brezplačna miselna uganka</span>
+  <h1>Premakni <span>1</span> vžigalico</h1>
+  <p class="tagline">Popravi matematične enačbe, premakni pravo vžigalico in reši vse več izzivov — od klasičnih ugank do tistih, kjer moraš število narediti manjše ali večje. Vlečeš in obračaš vžigalice s prstom, tako kot v resnici.</p>
+
+  <div class="illustration">
+    <svg viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#e2823c" stroke-width="9" stroke-linecap="round" fill="none">
+        <line x1="20" y1="20" x2="65" y2="20"/>
+        <line x1="20" y1="20" x2="20" y2="70"/>
+        <line x1="20" y1="70" x2="65" y2="70"/>
+        <line x1="20" y1="70" x2="20" y2="120"/>
+        <line x1="20" y1="120" x2="65" y2="120"/>
+        <line x1="65" y1="70" x2="65" y2="120"/>
+      </g>
+      <g stroke="#e2823c" stroke-width="9" stroke-linecap="round">
+        <line x1="95" y1="70" x2="140" y2="70"/>
+        <line x1="117" y1="48" x2="117" y2="92"/>
+      </g>
+      <g stroke="#e2823c" stroke-width="9" stroke-linecap="round" fill="none">
+        <line x1="170" y1="20" x2="170" y2="70"/>
+        <line x1="170" y1="70" x2="215" y2="70"/>
+        <line x1="215" y1="20" x2="215" y2="120"/>
+      </g>
+      <g stroke="#8a98a8" stroke-width="9" stroke-linecap="round">
+        <line x1="245" y1="55" x2="285" y2="55"/>
+        <line x1="245" y1="85" x2="285" y2="85"/>
+      </g>
+      <g stroke="#5fae82" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.9">
+        <line x1="315" y1="20" x2="315" y2="70"/>
+        <line x1="315" y1="70" x2="360" y2="70"/>
+        <line x1="360" y1="20" x2="360" y2="120"/>
+      </g>
+      <g fill="#d1352b">
+        <circle cx="65" cy="20" r="6"/><circle cx="20" cy="70" r="6"/><circle cx="65" cy="70" r="6"/><circle cx="20" cy="120" r="6"/><circle cx="65" cy="120" r="6"/>
+        <circle cx="140" cy="70" r="6"/><circle cx="117" cy="92" r="6"/>
+        <circle cx="170" cy="70" r="6"/><circle cx="215" cy="70" r="6"/><circle cx="215" cy="120" r="6"/>
+        <circle cx="285" cy="55" r="6"/><circle cx="285" cy="85" r="6"/>
+        <circle cx="315" cy="70" r="6"/><circle cx="360" cy="70" r="6"/><circle cx="360" cy="120" r="6"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Prenos</div>
+    <a class="download-btn" id="downloadBtn" href="vzigalice.apk" download>
+      ⬇ Prenesi za Android (.apk)
+    </a>
+    <div class="filesize">Deluje na Android 5.1 in novejših. Namestitev iz .apk zahteva, da v nastavitvah dovoliš "namestitev iz neznanih virov".</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Kako namestiti</div>
+    <ol class="steps">
+      <li>Prenesi datoteko z gumbom zgoraj (na telefonu, ne na računalniku).</li>
+      <li>Ob prvem odpiranju te telefon vpraša za dovoljenje "namesti iz neznanih virov" — potrdi.</li>
+      <li>Odpri preneseno datoteko, klikni "Namesti".</li>
+      <li>Igraj — vpiši svoje ime in začni z nivojem 1.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Živa statistika</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="num" id="viewsNum">–</div>
+        <div class="label">Ogledov strani</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="downloadsNum">–</div>
+        <div class="label">Prenosov</div>
+      </div>
+    </div>
+
+    <div class="section-title">Obveščaj me o novih igrah</div>
+    <form id="emailForm" class="email-row" action="https://formspree.io/f/xjgndbdl" method="POST">
+      <input type="email" name="email" placeholder="tvoj@email.com" required>
+      <input type="hidden" name="_subject" value="Nova prijava — Vžigalice">
+      <button type="submit">Prijavi me</button>
+    </form>
+    <div class="email-note">E-pošto uporabim samo za obvestilo o novih igrah — brez pošiljanja naprej.</div>
+    <div class="email-ok" id="emailOk">✅ Hvala, prijava uspešna!</div>
+  </div>
+
+  <footer>
+    Narejeno kot domač projekt. Deli povezavo naprej, če ti je uganka všeč. 🔥
+  </footer>
+</div>
+
+<script>
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
+  const VIEW_KEY = "vzigalice_app_page_views_2026";
+  const DOWNLOAD_KEY = "vzigalice_app_downloads_2026";
+
+  async function hit(key) {
+    try {
+      const res = await fetch(`${COUNTER_BASE}/hit/${key}`);
+      const data = await res.json();
+      return data.value;
+    } catch (e) { return null; }
+  }
+  async function get(key) {
+    try {
+      const res = await fetch(`${COUNTER_BASE}/get/${key}`);
+      const data = await res.json();
+      return data.value;
+    } catch (e) { return null; }
+  }
+
+  (async () => {
+    const views = await hit(VIEW_KEY);
+    document.getElementById('viewsNum').textContent = views ?? '?';
+    const downloads = await get(DOWNLOAD_KEY);
+    document.getElementById('downloadsNum').textContent = downloads ?? '0';
+  })();
+
+  document.getElementById('downloadBtn').addEventListener('click', async () => {
+    const val = await hit(DOWNLOAD_KEY);
+    if (val !== null) document.getElementById('downloadsNum').textContent = val;
+  });
+
+  // email signup — sends to Formspree, no page reload
+  const emailForm = document.getElementById('emailForm');
+  emailForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(emailForm);
+    try {
+      const res = await fetch(emailForm.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        emailForm.style.display = 'none';
+        document.getElementById('emailOk').style.display = 'block';
+      }
+    } catch (err) { /* ignore */ }
+  });
+</script>
+</body>
+</html>
