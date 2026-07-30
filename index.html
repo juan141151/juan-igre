@@ -31,7 +31,56 @@
     margin: 0 0 8px;
   }
   h1 span{color: var(--wood);}
-  .tagline{color: var(--ink-dim); font-size: 1rem; margin: 0 0 36px;}
+  .tagline{color: var(--ink-dim); font-size: 1rem; margin: 0 0 32px;}
+
+  /* ---- email gate ---- */
+  .gate-card{
+    background: linear-gradient(180deg, var(--card), #221c15);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 24px;
+    margin-bottom: 36px;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.4);
+  }
+  .gate-title{ font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; }
+  .gate-desc{ color: var(--ink-dim); font-size: 0.88rem; margin: 0 0 16px; }
+  .email-row{ display:flex; gap: 10px; flex-wrap: wrap; }
+  .email-row input[type="email"]{
+    flex: 1 1 200px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  .email-row input[type="email"]::placeholder{ color: var(--ink-dim); }
+  .email-row button{
+    flex: 0 0 auto;
+    background: var(--ok);
+    color: #10241a;
+    border: none;
+    font-weight: 700;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .email-note{ color: var(--ink-dim); font-size: 0.76rem; margin-top: 10px; }
+  .email-error{ color: #e08a8a; font-size: 0.82rem; margin-top: 10px; display:none; }
+
+  /* ---- game grid (locked until email submitted) ---- */
+  #gamesSection{
+    opacity: 0.3;
+    filter: blur(2px);
+    pointer-events: none;
+    transition: opacity .25s ease, filter .25s ease;
+  }
+  #gamesSection.unlocked{
+    opacity: 1;
+    filter: none;
+    pointer-events: auto;
+  }
+  .locked-note{ color: var(--ink-dim); font-size: 0.85rem; margin: -22px 0 20px; }
 
   .grid{ display:grid; grid-template-columns: 1fr; gap: 16px; }
   @media (min-width: 560px){ .grid{ grid-template-columns: 1fr 1fr; } }
@@ -52,11 +101,7 @@
   .game-desc{ color: var(--ink-dim); font-size: 0.88rem; line-height: 1.5; margin: 0 0 14px; }
   .game-play{ color: var(--wood); font-weight: 700; font-size: 0.88rem; }
 
-  /* Placeholder card for games not yet added */
-  .game-card.soon{
-    opacity: 0.45;
-    cursor: default;
-  }
+  .game-card.soon{ opacity: 0.45; cursor: default; }
   .game-card.soon:hover{ transform:none; border-color: var(--border); }
 
   footer{ text-align:center; color: var(--ink-dim); font-size:0.78rem; margin-top: 40px; }
@@ -67,32 +112,88 @@
   <h1>Moje <span>igre</span></h1>
   <p class="tagline">Zbirka domačih igric — izberi eno in igraj.</p>
 
-  <div class="grid">
+  <div class="gate-card" id="gateCard">
+    <div class="gate-title">Preden začneš — vpiši e-pošto</div>
+    <div class="gate-desc">Potreben je en vpis, da odkleneš seznam iger. Uporabim jo samo za obvestilo o novih igrah.</div>
+    <form id="emailForm" class="email-row" action="https://formspree.io/f/xjgndbdl" method="POST">
+      <input type="email" name="email" id="emailInput" placeholder="tvoj@email.com" required>
+      <input type="hidden" name="_subject" value="Nova prijava — Moje igre">
+      <button type="submit">Odkleni igre</button>
+    </form>
+    <div class="email-note">Brez pošiljanja naprej, brez spama.</div>
+    <div class="email-error" id="emailError">Nekaj je šlo narobe — poskusi še enkrat.</div>
+  </div>
 
-    <!-- ============================================================
-         VSAKA IGRA JE EN "game-card" BLOK. Za novo igro:
-         1. Skopiraj cel <a class="game-card" ...> ... </a> blok spodaj.
-         2. Zamenjaj href, emoji, naslov in opis.
-         3. Ustvari novo podmapo v games/ s svojo index.html/vzigalice.html in .apk.
-         ============================================================ -->
+  <div id="gamesSection">
+    <div class="locked-note" id="lockedNote">🔒 Vpiši e-pošto zgoraj, da odkleneš seznam.</div>
+    <div class="grid">
 
-    <a class="game-card" href="games/vzigalice.html">
-      <span class="game-icon">🔥</span>
-      <div class="game-title">Vžigalice</div>
-      <div class="game-desc">Premakni eno (ali več) vžigalico in popravi matematično enačbo.</div>
-      <div class="game-play">Igraj →</div>
-    </a>
+      <!-- ============================================================
+           VSAKA IGRA JE EN "game-card" BLOK. Za novo igro:
+           1. Skopiraj cel <a class="game-card" ...> ... </a> blok spodaj.
+           2. Zamenjaj href, emoji, naslov in opis.
+           3. Ustvari novo podmapo v games/ s svojo .html in .apk.
+           ============================================================ -->
 
-    <!-- primer prazne kartice za naslednjo igro — zbriši ta komentar in blok spodaj, ko dodaš pravo igro -->
-    <div class="game-card soon">
-      <span class="game-icon">➕</span>
-      <div class="game-title">Naslednja igra</div>
-      <div class="game-desc">Kmalu na voljo.</div>
+      <a class="game-card" href="games/vzigalice.html">
+        <span class="game-icon">🔥</span>
+        <div class="game-title">Vžigalice</div>
+        <div class="game-desc">Premakni eno (ali več) vžigalico in popravi matematično enačbo.</div>
+        <div class="game-play">Igraj →</div>
+      </a>
+
+      <div class="game-card soon">
+        <span class="game-icon">➕</span>
+        <div class="game-title">Naslednja igra</div>
+        <div class="game-desc">Kmalu na voljo.</div>
+      </div>
+
     </div>
-
   </div>
 
   <footer>Narejeno kot domač projekt. 🔥</footer>
 </div>
+
+<script>
+  const STORAGE_KEY = 'moje_igre_email_submitted';
+  const gamesSection = document.getElementById('gamesSection');
+  const gateCard = document.getElementById('gateCard');
+  const lockedNote = document.getElementById('lockedNote');
+  const emailForm = document.getElementById('emailForm');
+  const emailError = document.getElementById('emailError');
+
+  function unlock() {
+    gamesSection.classList.add('unlocked');
+    lockedNote.style.display = 'none';
+    gateCard.style.display = 'none';
+  }
+
+  // returning visitor on this device/browser — skip the gate
+  if (localStorage.getItem(STORAGE_KEY) === '1') {
+    unlock();
+  }
+
+  emailForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    emailError.style.display = 'none';
+    const data = new FormData(emailForm);
+    try {
+      const res = await fetch(emailForm.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        localStorage.setItem(STORAGE_KEY, '1');
+        unlock();
+      } else {
+        emailError.style.display = 'block';
+      }
+    } catch (err) {
+      emailError.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
+
