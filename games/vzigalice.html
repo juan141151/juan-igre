@@ -216,15 +216,6 @@
         <div class="label">Prenosov</div>
       </div>
     </div>
-
-    <div class="section-title">Obveščaj me o novih igrah</div>
-    <form id="emailForm" class="email-row" action="https://formspree.io/f/xjgndbdl" method="POST">
-      <input type="email" name="email" placeholder="tvoj@email.com" required>
-      <input type="hidden" name="_subject" value="Nova prijava — Vžigalice">
-      <button type="submit">Prijavi me</button>
-    </form>
-    <div class="email-note">E-pošto uporabim samo za obvestilo o novih igrah — brez pošiljanja naprej.</div>
-    <div class="email-ok" id="emailOk">✅ Hvala, prijava uspešna!</div>
   </div>
 
   <footer>
@@ -253,7 +244,14 @@
   }
 
   (async () => {
-    const views = await hit(VIEW_KEY);
+    const VIEWED_FLAG = 'vzigalice_viewed_this_browser';
+    let views;
+    if (localStorage.getItem(VIEWED_FLAG) === '1') {
+      views = await get(VIEW_KEY);       // already counted on this device — just read, don't increment
+    } else {
+      views = await hit(VIEW_KEY);       // first time on this device — count it
+      localStorage.setItem(VIEWED_FLAG, '1');
+    }
     document.getElementById('viewsNum').textContent = views ?? '?';
     const downloads = await get(DOWNLOAD_KEY);
     document.getElementById('downloadsNum').textContent = downloads ?? '0';
@@ -262,24 +260,6 @@
   document.getElementById('downloadBtn').addEventListener('click', async () => {
     const val = await hit(DOWNLOAD_KEY);
     if (val !== null) document.getElementById('downloadsNum').textContent = val;
-  });
-
-  // email signup — sends to Formspree, no page reload
-  const emailForm = document.getElementById('emailForm');
-  emailForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(emailForm);
-    try {
-      const res = await fetch(emailForm.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        emailForm.style.display = 'none';
-        document.getElementById('emailOk').style.display = 'block';
-      }
-    } catch (err) { /* ignore */ }
   });
 </script>
 </body>
