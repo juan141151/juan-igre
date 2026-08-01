@@ -257,9 +257,19 @@
     document.getElementById('downloadsNum').textContent = downloads ?? '0';
   })();
 
+  // --- Google Forms hidden logging (same form as the email signup on the hub page) ---
+  const GFORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLScr8HeYqN9WVEeS2c4Wp8VIQf6XcGYH_lvPCnAtlyQ1j1D3_g/formResponse";
+  const GFORM_GAME_ENTRY = "entry.215668598";
+
   document.getElementById('downloadBtn').addEventListener('click', async () => {
     const val = await hit(DOWNLOAD_KEY);
     if (val !== null) document.getElementById('downloadsNum').textContent = val;
+
+    const data = new FormData();
+    data.append(GFORM_GAME_ENTRY, "Vžigalice");
+    try {
+      await fetch(GFORM_ACTION, { method: 'POST', mode: 'no-cors', body: data });
+    } catch (err) { /* ignore — counter above already updated regardless */ }
   });
 </script>
 </body>
