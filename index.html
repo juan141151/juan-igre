@@ -155,6 +155,7 @@
 
 <script>
   const STORAGE_KEY = 'moje_igre_email_submitted';
+  const EMAIL_STORAGE_KEY = 'moje_igre_email'; // shared across all pages on this domain — used to tag downloads with who downloaded
   const gamesSection = document.getElementById('gamesSection');
   const gateCard = document.getElementById('gateCard');
   const lockedNote = document.getElementById('lockedNote');
@@ -200,6 +201,7 @@
         body: data
       });
       localStorage.setItem(STORAGE_KEY, '1');
+      localStorage.setItem(EMAIL_STORAGE_KEY, email);
       unlock();
     } catch (err) {
       emailError.style.display = 'block';
