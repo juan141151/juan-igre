@@ -115,9 +115,8 @@
   <div class="gate-card" id="gateCard">
     <div class="gate-title">Preden začneš — vpiši e-pošto</div>
     <div class="gate-desc">Potreben je en vpis, da odkleneš seznam iger. Uporabim jo samo za obvestilo o novih igrah.</div>
-    <form id="emailForm" class="email-row" action="https://formspree.io/f/xjgndbdl" method="POST">
+    <form id="emailForm" class="email-row">
       <input type="email" name="email" id="emailInput" placeholder="tvoj@email.com" required>
-      <input type="hidden" name="_subject" value="Nova prijava — Moje igre">
       <button type="submit">Odkleni igre</button>
     </form>
     <div class="email-note">Brez pošiljanja naprej, brez spama.</div>
@@ -168,27 +167,40 @@
     gateCard.style.display = 'none';
   }
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const isTestMode = urlParams.get('test') === '1';
+
   // returning visitor on this device/browser — skip the gate
-  if (localStorage.getItem(STORAGE_KEY) === '1') {
+  // (?test=1 also always skips it, without touching localStorage, so you can
+  //  re-test the real gate later just by visiting the page without ?test=1)
+  if (isTestMode || localStorage.getItem(STORAGE_KEY) === '1') {
     unlock();
   }
+
+  // --- Google Forms hidden submission ---
+  // Form: "Prijava-Moje igre" — replace these two values if you ever recreate the Google Form.
+  const GFORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLScr8HeYqN9WVEeS2c4Wp8VIQf6XcGYH_lvPCnAtlyQ1j1D3_g/formResponse";
+  const GFORM_EMAIL_ENTRY = "entry.1388688751";
 
   emailForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     emailError.style.display = 'none';
-    const data = new FormData(emailForm);
+    const email = document.getElementById('emailInput').value;
+
+    const data = new FormData();
+    data.append(GFORM_EMAIL_ENTRY, email);
+
     try {
-      const res = await fetch(emailForm.action, {
+      // Google Forms doesn't send CORS headers for formResponse, so we use
+      // 'no-cors': the request still goes through and the entry gets saved,
+      // we just can't read the response back (which we don't need anyway).
+      await fetch(GFORM_ACTION, {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        mode: 'no-cors',
+        body: data
       });
-      if (res.ok) {
-        localStorage.setItem(STORAGE_KEY, '1');
-        unlock();
-      } else {
-        emailError.style.display = 'block';
-      }
+      localStorage.setItem(STORAGE_KEY, '1');
+      unlock();
     } catch (err) {
       emailError.style.display = 'block';
     }
