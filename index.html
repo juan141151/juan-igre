@@ -104,6 +104,18 @@
   .game-card.soon{ opacity: 0.45; cursor: default; }
   .game-card.soon:hover{ transform:none; border-color: var(--border); }
 
+  .stats{ display:flex; gap: 14px; margin-bottom: 28px; }
+  .stat{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align:center;
+    min-width: 120px;
+  }
+  .stat .num{ font-size: 1.6rem; font-weight: 700; color: var(--wood); font-variant-numeric: tabular-nums; }
+  .stat .label{ font-size: 0.72rem; color: var(--ink-dim); text-transform:uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
   footer{ text-align:center; color: var(--ink-dim); font-size:0.78rem; margin-top: 40px; }
 </style>
 </head>
@@ -111,6 +123,13 @@
 <div class="wrap">
   <h1>Moje <span>igre</span></h1>
   <p class="tagline">Zbirka domačih igric — izberi eno in igraj.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num" id="viewsNum">–</div>
+      <div class="label">Ogledov strani</div>
+    </div>
+  </div>
 
   <div class="gate-card" id="gateCard">
     <div class="gate-title">Preden začneš — vpiši e-pošto</div>
@@ -154,6 +173,36 @@
 </div>
 
 <script>
+  const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
+  const VIEW_KEY = "vzigalice_app_page_views_2026";
+
+  async function hit(key) {
+    try {
+      const res = await fetch(`${COUNTER_BASE}/hit/${key}`);
+      const data = await res.json();
+      return data.value;
+    } catch (e) { return null; }
+  }
+  async function get(key) {
+    try {
+      const res = await fetch(`${COUNTER_BASE}/get/${key}`);
+      const data = await res.json();
+      return data.value;
+    } catch (e) { return null; }
+  }
+
+  (async () => {
+    const VIEWED_FLAG = 'hub_viewed_this_browser';
+    let views;
+    if (localStorage.getItem(VIEWED_FLAG) === '1') {
+      views = await get(VIEW_KEY);       // already counted on this device — just read, don't increment
+    } else {
+      views = await hit(VIEW_KEY);       // first time on this device — count it
+      localStorage.setItem(VIEWED_FLAG, '1');
+    }
+    document.getElementById('viewsNum').textContent = views ?? '?';
+  })();
+
   const STORAGE_KEY = 'moje_igre_email_submitted';
   const EMAIL_STORAGE_KEY = 'moje_igre_email'; // shared across all pages on this domain — used to tag downloads with who downloaded
   const gamesSection = document.getElementById('gamesSection');
