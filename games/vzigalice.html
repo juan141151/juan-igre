@@ -25,52 +25,53 @@
     font-family: "Helvetica Neue", Arial, sans-serif;
     min-height:100vh;
   }
-  .wrap{max-width: 640px; margin: 0 auto; padding: 32px 20px 60px;}
+  .wrap{max-width: 640px; margin: 0 auto; padding: 16px 20px 20px;}
 
   .back-link{
     display:inline-block;
     color: var(--ink-dim);
     text-decoration:none;
-    font-size: 0.85rem;
-    margin-bottom: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
   }
   .back-link:hover{ color: var(--wood); }
 
+  .header-row{ display:flex; align-items:baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
   .badge{
     display:inline-block;
     background: var(--card);
     border: 1px solid var(--border);
     color: var(--ink-dim);
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 5px 12px;
+    padding: 3px 10px;
     border-radius: 999px;
-    margin-bottom: 18px;
   }
   h1{
     font-family: Georgia, "Iowan Old Style", serif;
-    font-size: 2.6rem;
-    margin: 0 0 8px;
+    font-size: 1.6rem;
+    margin: 0;
     line-height: 1.1;
+    display:inline;
   }
   h1 span{color: var(--wood);}
-  .tagline{color: var(--ink-dim); font-size: 1.05rem; line-height:1.6; margin: 0 0 32px; max-width: 480px;}
+  .tagline{color: var(--ink-dim); font-size: 0.82rem; line-height:1.4; margin: 0 0 12px; max-width: 520px;}
 
-  .illustration{ margin: 0 0 36px; }
-  .illustration svg{ width: 100%; max-width: 420px; height: auto; display:block; }
+  .illustration{ margin: 0 0 14px; }
+  .illustration svg{ width: 100%; max-width: 220px; height: auto; display:block; }
 
-  .two-col{ display:grid; grid-template-columns: 1fr; gap: 22px; margin-bottom: 22px; }
+  .two-col{ display:grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
   @media (min-width: 640px){ .two-col{ grid-template-columns: 1fr 1fr; } }
   .two-col .card{ margin-bottom: 0; }
 
   .card{
     background: linear-gradient(180deg, var(--card), #221c15);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 24px;
-    margin-bottom: 22px;
-    box-shadow: 0 12px 34px rgba(0,0,0,0.4);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.35);
   }
   .download-btn{
     display:flex;
@@ -78,35 +79,29 @@
     justify-content:center;
     gap: 10px;
     width: 100%;
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 700;
     background: linear-gradient(180deg, var(--wood), var(--wood-dark));
     color: #201205;
     border: none;
-    padding: 18px 22px;
-    border-radius: 12px;
+    padding: 13px 18px;
+    border-radius: 10px;
     cursor: pointer;
     text-decoration: none;
     transition: transform .12s ease;
   }
   .download-btn:hover{ transform: translateY(-2px); }
   .download-btn:active{ transform: translateY(0); }
-  .filesize{ color: var(--ink-dim); font-size: 0.8rem; text-align:center; margin-top: 10px; }
+  .filesize{ color: var(--ink-dim); font-size: 0.72rem; text-align:center; margin-top: 8px; line-height:1.4; }
 
-  .steps{ margin: 0; padding-left: 20px; color: var(--ink-dim); font-size: 0.92rem; line-height: 1.8; }
+  .steps{ margin: 0; padding-left: 18px; color: var(--ink-dim); font-size: 0.8rem; line-height: 1.55; }
   .steps li::marker{ color: var(--wood); font-weight: 700; }
 
-  .stats{ display:flex; gap: 14px; margin-bottom: 22px; }
-  .stat{
-    flex:1;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 14px;
-    text-align:center;
+  .inline-stat{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    margin-top: 10px; font-size: 0.78rem; color: var(--ink-dim);
   }
-  .stat .num{ font-size: 2rem; font-weight: 700; color: var(--wood); font-variant-numeric: tabular-nums; }
-  .stat .label{ font-size: 0.78rem; color: var(--ink-dim); text-transform:uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .inline-stat .num{ color: var(--wood); font-weight:700; font-variant-numeric: tabular-nums; }
 
   .email-row{ display:flex; gap: 10px; flex-wrap: wrap; }
   .email-row input[type="email"]{
@@ -133,14 +128,14 @@
   .email-ok{ color: var(--ok); font-size: 0.88rem; margin-top: 10px; display:none; }
 
   .section-title{
-    font-size: 0.72rem;
+    font-size: 0.66rem;
     text-transform: uppercase;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.2px;
     color: var(--ink-dim);
-    margin: 0 0 14px;
+    margin: 0 0 8px;
   }
 
-  footer{ text-align:center; color: var(--ink-dim); font-size:0.78rem; margin-top: 36px; line-height:1.6; }
+  footer{ text-align:center; color: var(--ink-dim); font-size:0.7rem; margin-top: 10px; line-height:1.5; }
 </style>
 </head>
 <body>
@@ -148,9 +143,11 @@
 
   <a class="back-link" href="../index.html">← Vse igre</a>
 
-  <span class="badge">brezplačna miselna uganka</span>
-  <h1>Premakni <span>1</span> vžigalico</h1>
-  <p class="tagline">Popravi matematične enačbe, premakni pravo vžigalico in reši vse več izzivov — od klasičnih ugank do tistih, kjer moraš število narediti manjše ali večje. Vlečeš in obračaš vžigalice s prstom, tako kot v resnici.</p>
+  <div class="header-row">
+    <h1>Premakni <span>1</span> vžigalico</h1>
+    <span class="badge">brezplačna miselna uganka</span>
+  </div>
+  <p class="tagline">Popravi matematične enačbe s pravo vžigalico — vlečeš in obračaš s prstom, tako kot v resnici.</p>
 
   <div class="illustration">
     <svg viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg">
@@ -196,27 +193,18 @@
       <a class="download-btn" id="downloadBtn" href="vzigalice.apk" download>
         ⬇ Prenesi za Android (.apk)
       </a>
-      <div class="filesize">Deluje na Android 5.1 in novejših. Namestitev iz .apk zahteva, da v nastavitvah dovoliš "namestitev iz neznanih virov".</div>
+      <div class="filesize">Deluje na Android 5.1+. Zahteva dovoljenje "namestitev iz neznanih virov".</div>
+      <div class="inline-stat">⬇ <span class="num" id="downloadsNum">–</span> prenosov doslej</div>
     </div>
 
     <div class="card">
       <div class="section-title">Kako namestiti</div>
       <ol class="steps">
-        <li>Prenesi datoteko z gumbom zgoraj (na telefonu, ne na računalniku).</li>
-        <li>Ob prvem odpiranju te telefon vpraša za dovoljenje "namesti iz neznanih virov" — potrdi.</li>
-        <li>Odpri preneseno datoteko, klikni "Namesti".</li>
-        <li>Igraj — vpiši svoje ime in začni z nivojem 1.</li>
+        <li>Prenesi datoteko (na telefonu).</li>
+        <li>Dovoli "namesti iz neznanih virov".</li>
+        <li>Odpri datoteko, klikni "Namesti".</li>
+        <li>Igraj — vpiši ime, nivo 1.</li>
       </ol>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="section-title">Živa statistika</div>
-    <div class="stats">
-      <div class="stat">
-        <div class="num" id="downloadsNum">–</div>
-        <div class="label">Prenosov</div>
-      </div>
     </div>
   </div>
 
