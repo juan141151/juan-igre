@@ -60,6 +60,10 @@
   .illustration{ margin: 0 0 36px; }
   .illustration svg{ width: 100%; max-width: 420px; height: auto; display:block; }
 
+  .two-col{ display:grid; grid-template-columns: 1fr; gap: 22px; margin-bottom: 22px; }
+  @media (min-width: 640px){ .two-col{ grid-template-columns: 1fr 1fr; } }
+  .two-col .card{ margin-bottom: 0; }
+
   .card{
     background: linear-gradient(180deg, var(--card), #221c15);
     border: 1px solid var(--border);
@@ -186,31 +190,29 @@
     </svg>
   </div>
 
-  <div class="card">
-    <div class="section-title">Prenos</div>
-    <a class="download-btn" id="downloadBtn" href="vzigalice.apk" download>
-      ⬇ Prenesi za Android (.apk)
-    </a>
-    <div class="filesize">Deluje na Android 5.1 in novejših. Namestitev iz .apk zahteva, da v nastavitvah dovoliš "namestitev iz neznanih virov".</div>
-  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="section-title">Prenos</div>
+      <a class="download-btn" id="downloadBtn" href="vzigalice.apk" download>
+        ⬇ Prenesi za Android (.apk)
+      </a>
+      <div class="filesize">Deluje na Android 5.1 in novejših. Namestitev iz .apk zahteva, da v nastavitvah dovoliš "namestitev iz neznanih virov".</div>
+    </div>
 
-  <div class="card">
-    <div class="section-title">Kako namestiti</div>
-    <ol class="steps">
-      <li>Prenesi datoteko z gumbom zgoraj (na telefonu, ne na računalniku).</li>
-      <li>Ob prvem odpiranju te telefon vpraša za dovoljenje "namesti iz neznanih virov" — potrdi.</li>
-      <li>Odpri preneseno datoteko, klikni "Namesti".</li>
-      <li>Igraj — vpiši svoje ime in začni z nivojem 1.</li>
-    </ol>
+    <div class="card">
+      <div class="section-title">Kako namestiti</div>
+      <ol class="steps">
+        <li>Prenesi datoteko z gumbom zgoraj (na telefonu, ne na računalniku).</li>
+        <li>Ob prvem odpiranju te telefon vpraša za dovoljenje "namesti iz neznanih virov" — potrdi.</li>
+        <li>Odpri preneseno datoteko, klikni "Namesti".</li>
+        <li>Igraj — vpiši svoje ime in začni z nivojem 1.</li>
+      </ol>
+    </div>
   </div>
 
   <div class="card">
     <div class="section-title">Živa statistika</div>
     <div class="stats">
-      <div class="stat">
-        <div class="num" id="viewsNum">–</div>
-        <div class="label">Ogledov strani</div>
-      </div>
       <div class="stat">
         <div class="num" id="downloadsNum">–</div>
         <div class="label">Prenosov</div>
@@ -225,7 +227,6 @@
 
 <script>
   const COUNTER_BASE = "https://countapi.mileshilliard.com/api/v1";
-  const VIEW_KEY = "vzigalice_app_page_views_2026";
   const DOWNLOAD_KEY = "vzigalice_app_downloads_2026";
 
   async function hit(key) {
@@ -244,15 +245,6 @@
   }
 
   (async () => {
-    const VIEWED_FLAG = 'vzigalice_viewed_this_browser';
-    let views;
-    if (localStorage.getItem(VIEWED_FLAG) === '1') {
-      views = await get(VIEW_KEY);       // already counted on this device — just read, don't increment
-    } else {
-      views = await hit(VIEW_KEY);       // first time on this device — count it
-      localStorage.setItem(VIEWED_FLAG, '1');
-    }
-    document.getElementById('viewsNum').textContent = views ?? '?';
     const downloads = await get(DOWNLOAD_KEY);
     document.getElementById('downloadsNum').textContent = downloads ?? '0';
   })();
